@@ -27,7 +27,7 @@
                     <input type="text" v-model="model.student.phone"  class="form-control" />
                 </div>
                 <div class="mb-3">
-                    <button type="button" @click="saveStudent" class="btn btn-primary">Save</button>
+                    <button type="button" @click="updateStudent" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </div>
@@ -56,19 +56,29 @@ export default {
         this.getStudentData(this.$route.params.id);
     },
     methods : {
-        saveStudent(){
+        getStudentData(studentId){
+            axios.get(`http://127.0.0.1:8000/api/students/${studentId}/edit`)
+            .then(res => {
+                console.log(res.data.student)
+                //imprime dato en campo, como tienen el mismo nombre no es necesario referenciar
+                this.model.student = res.data.student
+            })
+            .catch(function (error) {
+                if (error.response) {
+                    //cacha el estatus de la api segun la respuesta de validator o cacha el errors
+                    if(error.response.status == 404){
+                     alert(error.response.data.message);  
+                    }
+                } 
+            });
+        },
+        updateStudent(){
             var mythis = this;
-            axios.post('http://127.0.0.1:8000/api/students', this.model.student)
+            axios.put(`http://127.0.0.1:8000/api/students/${studentId}/edit`, this.model.student)
             .then(res => {
                 console.log(res.data)
                 alert(res.data.message);
 
-                this.model.student = {
-                    name: '',
-                    course: '',
-                    email: '',
-                    phone: ''
-                }
                 this.errorList = '';
             })
             .catch(function (error) {
@@ -76,6 +86,10 @@ export default {
                     //cacha el estatus de la api segun la respuesta de validator o cacha el errors
                     if(error.response.status == 422){
                       mythis.errorList = error.response.data.errors;  
+                    }
+
+                    if(error.response.status == 404){
+                        alert(error.response.data.message);  
                     }
                     //console.log(error.response.data);
                     //console.log(error.response.status);
