@@ -40,6 +40,7 @@ export default {
     name:'studentEdit',
     data(){
         return {
+            studentId: '',
             errorList: '',
             model: {
                 student: {
@@ -53,11 +54,12 @@ export default {
     },
     mounted(){
         //console.log(this.$route.params.id);
+        this.studentId = this.$route.params.id;
         this.getStudentData(this.$route.params.id);
     },
     methods : {
         getStudentData(studentId){
-            axios.get(`http://127.0.0.1:8000/api/students/${studentId}/edit`)
+            axios.get(`http://127.0.0.1:8000/api/students/${this.studentId}/edit`)
             .then(res => {
                 console.log(res.data.student)
                 //imprime dato en campo, como tienen el mismo nombre no es necesario referenciar
@@ -74,10 +76,17 @@ export default {
         },
         updateStudent(){
             var mythis = this;
-            axios.put(`http://127.0.0.1:8000/api/students/${studentId}/edit`, this.model.student)
+            axios.put(`http://127.0.0.1:8000/api/students/${this.studentId}/edit`, this.model.student)
             .then(res => {
                 console.log(res.data)
                 alert(res.data.message);
+
+                this.model.student = {
+                    name: '',
+                    course: '',
+                    email: '',
+                    phone: ''
+                }
 
                 this.errorList = '';
             })
