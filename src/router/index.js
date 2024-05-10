@@ -9,31 +9,39 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'login',
       component: HomeView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
     },
     {
       path: '/students',
       name: 'students',
-      component: StudentView
+      component: StudentView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/students/create',
       name: 'studentCreate',
-      component: StudentCreate
+      component: StudentCreate,
+      meta: { requiresAuth: true }
     },
     {
       path: '/students/:id/edit',
       name: 'studentEdit',
-      component: StudentEdit
+      component: StudentEdit,
+      meta: { requiresAuth: true }
     }
-    
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token'); 
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (requiresAuth && !isAuthenticated) {
+    next({ name: 'login' }); // Redirigir a la página de inicio de sesión si el usuario no está autenticado
+  } else {
+    next(); // Continuar con la navegación normalmente
+  }
+});
 
 export default router

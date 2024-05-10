@@ -1,6 +1,7 @@
 <template>
-      <div class="container">
-       <div class="card">
+      <br>
+      <div class="container" v-if="isAuthenticated"> 
+        <div class="card">
          <div class="card-header">
             <h4>
                   Students
@@ -59,9 +60,14 @@ export default {
         }
       },
       mounted() {
-         //Axios para llamar datos
          this.getStudents();
       },
+      computed: {
+            isAuthenticated() {
+                  const token = localStorage.getItem('token');
+                  return token
+                  }
+            },
       methods: {
             getStudents(){
                   axios.get('http://127.0.0.1:8000/api/students').then(res => {
