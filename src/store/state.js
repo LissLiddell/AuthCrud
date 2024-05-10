@@ -1,4 +1,5 @@
 export const state = () => ({
+    sesionActiva: false,
     token: '',
     username: ''
 })

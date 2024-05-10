@@ -64,6 +64,7 @@ export default {
     const errors = reactive({ email: '', password: '' });
     const errorMessage = ref('');
 
+    //llamadas al store 
     const token = computed(() => store.state.stApp.app.token);
     const username = computed(() => store.state.stApp.app.username);
 
@@ -85,7 +86,7 @@ export default {
       }
       try {
         await validarUsuario({email: email.value, password: password.value});
-        console.log('resultado', token.value, username.value)
+        //console.log('resultado', token.value, username.value)
         router.push({ name: 'students' });
       } catch (error) {
         console.error(error)
