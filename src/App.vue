@@ -3,7 +3,7 @@ import {  RouterView } from 'vue-router'
 </script>
 
 <template>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="$store.state.stApp.app.sesionActiva">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="$store.state.stApp.app.sessionActive">
         <div class="container">
           <router-link class="navbar-brand" to="/students">Students</router-link>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,6 @@ import {  RouterView } from 'vue-router'
                     $store.dispatch('stApp/cerrarSesion')
                     $router.push({ name: 'login' });
                   }" style="color: azure;"> Cerrar Sesion </button>
-                  <!-- {{ $store.state.stApp.app.sesionActiva }} -->
               </li>
             </ul>
           </div>

@@ -35,53 +35,37 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { useStore } from 'vuex';
+import { ref, reactive } from 'vue';
+import { computed } from 'vue';
 
 export default {
-    name:'studentCreate',
-    data(){
-        return {
-            errorList: '',
-            model: {
-                student: {
-                    name: '',
-                    course: '',
-                    email: '',
-                    phone: ''
-                }
-            }
-        }
-    },
-    methods : {
-        saveStudent(){
-            var mythis = this;
-            axios.post('http://127.0.0.1:8000/api/students', this.model.student)
-            .then(res => {
-                console.log(res.data)
-                alert(res.data.message);
+ name: 'studentCreate',
+  setup() {
+    const errorList = ref('');
+    const model = ref({
+      student: {
+        name: '',
+        course: '',
+        email: '',
+        phone: ''
+      }
+    });
 
-                this.model.student = {
-                    name: '',
-                    course: '',
-                    email: '',
-                    phone: ''
-                }
-                this.errorList = '';
-                
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    //cacha el estatus de la api segun la respuesta de validator o cacha el errors
-                    if(error.response.status == 422){
-                      mythis.errorList = error.response.data.errors;  
-                    }
-                    } else if (error.request) {
-                    console.log(error.request);
-                    } else {
-                    console.log('Error', error.message);
-                    }
-            });
-        }
-    },
-}
+    const idEstudiante = computed(() => store.state.stApp.app.idEstudiante);
+
+    const crearEstudiante = (params) => store.dispatch('stApp/crearEstudiante', params);
+
+    const saveStudent = async () =>{
+        await crearEstudiante({name: student.name.value, course: student.course.value, email: student.email.value, phone:student.phone.value})
+        router.push({ name: 'students' });
+    }
+
+    return {
+      errorList,
+      model,
+      saveStudent
+    };
+  }
+};
 </script>

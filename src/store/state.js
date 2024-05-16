@@ -1,7 +1,9 @@
 export const state = () => ({
-    sesionActiva: false,
+    sessionActive: false,
     token: '',
-    username: ''
+    username: '',
+    resuDelStudents: null,
+    students: []
 })
 
 export default state

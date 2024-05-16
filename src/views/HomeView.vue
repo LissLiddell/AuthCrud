@@ -69,7 +69,7 @@ export default {
     const username = computed(() => store.state.stApp.app.username);
 
     const validarUsuario = (params) => store.dispatch('stApp/validarUsuario', params);
-
+    // funcion para validar login 
     const login = async () => {
       errorMessage.value = '';
       if (!email.value) {

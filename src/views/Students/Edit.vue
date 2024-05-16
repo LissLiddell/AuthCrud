@@ -33,80 +33,47 @@
         </div>
     </div>
 </template>
-
 <script>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
+
 export default {
-    name:'studentEdit',
-    data(){
-        return {
-            studentId: '',
-            errorList: '',
-            model: {
-                student: {
-                    name: '',
-                    course: '',
-                    email: '',
-                    phone: ''
-                }
-            }
-        }
-    },
-    mounted(){
-        //console.log(this.$route.params.id);
-        this.studentId = this.$route.params.id;
-        this.getStudentData(this.$route.params.id);
-    },
-    methods : {
-        getStudentData(studentId){
-            axios.get(`http://127.0.0.1:8000/api/students/${this.studentId}/edit`)
-            .then(res => {
-                console.log(res.data.student)
-                //imprime dato en campo, como tienen el mismo nombre no es necesario referenciar
-                this.model.student = res.data.student
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    //cacha el estatus de la api segun la respuesta de validator o cacha el errors
-                    if(error.response.status == 404){
-                     alert(error.response.data.message);  
-                    }
-                } 
-            });
-        },
-        updateStudent(){
-            var mythis = this;
-            axios.put(`http://127.0.0.1:8000/api/students/${this.studentId}/edit`, this.model.student)
-            .then(res => {
-                console.log(res.data)
-                alert(res.data.message);
+  name: 'studentEdit',
+  setup() {
+    const studentId = ref('');
+    const errorList = ref('');
+    const model = ref({
+      student: {
+        name: '',
+        course: '',
+        email: '',
+        phone: ''
+      }
+    });
 
-                this.model.student = {
-                    name: '',
-                    course: '',
-                    email: '',
-                    phone: ''
-                }
+    const idEstudiante = computed(() => store.state.stApp.app.idEstudiante);
 
-                this.errorList = '';
-            })
-            .catch(function (error) {
-                if (error.response) {
-                    //cacha el estatus de la api segun la respuesta de validator o cacha el errors
-                    if(error.response.status == 422){
-                      mythis.errorList = error.response.data.errors;  
-                    }
+    const obtenerEstudianteData = (params) => store.dispatch('stApp/obtenerEstudianteData')
 
-                    if(error.response.status == 404){
-                        alert(error.response.data.message);  
-                    }
-                    } else if (error.request) {
-                    console.log(error.request);
-                    } else {
-                    console.log('Error', error.message);
-                    }
-            });
-        }
-    },
-}
+    const getStudentData = async () =>{ await obtenerEstudianteData({students: idEstudiante.value});};
+
+    const updateStudent = async () =>{
+        await editarEstudiante({name: student.name.value, course: student.course.value, email: student.email.value, phone:student.phone.value})
+      router.push({ name: 'students' }); 
+    };
+
+    // onMounted(() => {
+    //   studentId.value = this.$route.params.id;
+    //   getStudentData(studentId.value);
+    // });
+
+    return {
+      studentId,
+      errorList,
+      model,
+      updateStudent
+    };
+  }
+};
 </script>
+

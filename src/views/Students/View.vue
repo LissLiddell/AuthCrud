@@ -5,9 +5,9 @@
          <div class="card-header">
             <h4>
                   Students
-                  <RouterLink to="/students/create" class="btn btn-primary float-end">
+                  <!-- <RouterLink to="/students/create" class="btn btn-primary float-end">
                   Add Student
-                  </RouterLink>
+                  </RouterLink> -->
             </h4>
          </div>
          <div class="card-body"> 
@@ -23,8 +23,8 @@
                               <th>Action</th>
                         </tr>
                   </thead>
-                  <tbody v-if="this.students.length > 0">
-                        <tr v-for=" (student,index) in this.students" :key="index">
+                   <tbody v-if="students && students.length > 0">
+                        <tr v-for="student in students" :key="student.id">
                               <td>{{ student.id }}</td>
                               <td>{{ student.name }}</td>
                               <td>{{ student.course }}</td>
@@ -35,59 +35,68 @@
                                <RouterLink :to="{ path: '/students/'+student.id+'/edit' }" class="btn btn-success mx-2">
                                      Edit
                               </RouterLink>  
-                              <button type="button" @click="deleteStudent(student.id)" class="btn btn-danger mx-2">Delete</button>
+                              <button type="button" @click="studentDeleted(student.id)" class="btn btn-danger mx-2">Delete</button>
                               </td>
                         </tr>
-                  </tbody>
-                 <tbody v-else>
+                  </tbody> 
+                  <tbody v-else>
                         <tr>
                                <td colspan="7">Loading....</td>
                         </tr>
-                  </tbody>
+                  </tbody> 
             </table>
          </div>
         </div>
       </div>
 </template>
 
-<script>
-import axios from 'axios'
-export default {
-      name: 'students',
-      data(){
-        return{
-         students: []
-        }
-      },
-      mounted() {
-         this.getStudents();
-      },
-      methods: {
-            getStudents(){
-                  axios.get('http://127.0.0.1:8000/api/students').then(res => {
-                        this.students = res.data.students
-                       // console.log(this.students)
-                  })
-            },
 
-            deleteStudent(studentId){
-                  if(confirm('Are you sure, you wan delete this data?')){
-                       // console.log(studentId)
-                       axios.delete(`http://127.0.0.1:8000/api/students/${studentId}/delete`)
-                       .then(res => {
-                              alert(res.data.message);
-                              this.getStudents();
-                       })
-                       .catch(function (error) {
-                              if (error.response) {
-                                    //cacha el estatus de la api segun la respuesta de validator o cacha el errors
-                                    if(error.response.status == 404){
-                                    alert(error.response.data.message);  
-                                    }
-                              } 
-                        });
-                  }
-            },
+<script>
+import { useStore } from 'vuex';
+import { ref, reactive, onMounted} from 'vue';
+import { computed } from 'vue';
+
+export default {
+  setup() {
+    const students = computed(() => store.state.stApp.app.students);
+    const store = useStore();
+
+    // llamada de store
+    const resuDelStudents = computed(() => store.state.stApp.app.resuDelStudents);
+    const deleteStudent = (params) => store.dispatch('stApp/eliminarEstudiante', params);
+
+
+    const studentDeleted = async (id) => {
+      try {
+        if(confirm('Are you sure, you wan delete this data?')){
+          await store.dispatch('stApp/eliminarEstudiante', {id: id});
+          alert(resuDelStudents.value.mensaje)
+          getStudents()
+        }
+      } catch (error) {
+        console.error("Error fetching students:", error);
       }
-}
+    };
+
+    const getStudents = async () => {
+      try {
+        await store.dispatch('stApp/obtenerEstudiantes');
+        console.log('getStudents', students.value)
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      }
+    };
+
+    onMounted(() => {
+      getStudents();
+    });
+
+    return {
+      students,
+      getStudents,
+      studentDeleted
+    };
+  }
+};
 </script>
+
