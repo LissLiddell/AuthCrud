@@ -3,7 +3,20 @@ export const state = () => ({
     token: '',
     username: '',
     resuDelStudents: null,
-    students: []
+    students: [],
+    addStudent: {
+        name: '',
+        course: '',
+        email: '',
+        phone: ''
+    },
+    updateStudent: {
+        name: '',
+        course: '',
+        email: '',
+        phone: ''
+    },
+    studentData: null
 })
 
 export default state

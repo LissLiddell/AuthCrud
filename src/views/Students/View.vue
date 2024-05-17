@@ -5,9 +5,9 @@
          <div class="card-header">
             <h4>
                   Students
-                  <!-- <RouterLink to="/students/create" class="btn btn-primary float-end">
+                  <RouterLink to="/students/create" class="btn btn-primary float-end">
                   Add Student
-                  </RouterLink> -->
+                  </RouterLink>
             </h4>
          </div>
          <div class="card-body"> 
@@ -53,7 +53,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { ref, reactive, onMounted} from 'vue';
+import { onMounted} from 'vue';
 import { computed } from 'vue';
 
 export default {
@@ -69,7 +69,7 @@ export default {
     const studentDeleted = async (id) => {
       try {
         if(confirm('Are you sure, you wan delete this data?')){
-          await store.dispatch('stApp/eliminarEstudiante', {id: id});
+          await deleteStudent({id: id})
           alert(resuDelStudents.value.mensaje)
           getStudents()
         }
@@ -81,7 +81,6 @@ export default {
     const getStudents = async () => {
       try {
         await store.dispatch('stApp/obtenerEstudiantes');
-        console.log('getStudents', students.value)
       } catch (error) {
         console.error("Error fetching students:", error);
       }
