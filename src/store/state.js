@@ -4,6 +4,7 @@ export const state = () => ({
     username: '',
     resuDelStudents: null,
     students: [],
+    student: null,
     addStudent: {
         name: '',
         course: '',
@@ -15,8 +16,7 @@ export const state = () => ({
         course: '',
         email: '',
         phone: ''
-    },
-    studentData: null
+    }
 })
 
 export default state

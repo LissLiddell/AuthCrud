@@ -45,12 +45,7 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const student = ref({
-      name: '',
-      course: '',
-      email: '',
-      phone: ''
-    });
+    const student = ref({ name: '', course: '', email: '',  phone: '' });
 
     // llamada de store
     const addStudent = computed(() => store.state.stApp.app.addStudent);

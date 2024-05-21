@@ -4,76 +4,88 @@
             <div class="card-header">
                 <h4>Edit Students</h4>
             </div>
-            <div class="card-body">
-                <!-- <ul class="alert alert-warning" v-if="Object.keys(this.errorList).length > 0">
+ <!-- <ul class="alert alert-warning" v-if="Object.keys(this.errorList).length > 0">
                     <li class="mb-0 ms-3" v-for="(error,index) in this.errorList" :key="index">
                         {{ error[0] }}
                     </li>
                 </ul> -->
+            <div class="card-body" v-if="editedStudent">
+                           
                 <div class="mb-3">
                     <label for="">Name</label>
-                    <input type="text" v-model="student.name" class="form-control" />
+                    <input type="text" v-model="editedStudent.name" class="form-control" required/>
                 </div>
                 <div class="mb-3">
                     <label for="">Course</label>
-                    <input type="text"  v-model="student.course"  class="form-control" />
+                    <input type="text"  v-model="editedStudent.course"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
                     <label for="">Email</label>
-                    <input type="text" v-model="student.email"  class="form-control" />
+                    <input type="email" v-model="editedStudent.email"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
                     <label for="">Phone</label>
-                    <input type="text" v-model="student.phone"  class="form-control" />
+                    <input type="number" v-model="editedStudent.phone"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
-                    <button type="button" @click="ChangeStudent(student.id)" class="btn btn-primary">Update</button>
+                    <button type="button" :disabled="!hasChanges" @click="changeStudent(editedStudent.id)"
+                        class="btn btn-primary">Update</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-import { useStore } from 'vuex';
-import { onMounted} from 'vue';
-import { computed } from 'vue';
+import { useStore } from 'vuex'
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
-    const students = computed(() => store.state.stApp.app.students);
-    const store = useStore();
-
-    // const studentOneData = ref({
-    //   name: '',
-    //   course: '',
-    //   email: '',
-    //   phone: ''
-    // });
+    const store = useStore()
+    const router = useRouter()
+    const originalStudent = ref(null)
+    const editedStudent = ref({ name: '', course: '', email: '', phone: '' })
 
     // llamada de store
-    const oneStudent = (params) => store.dispatch('stApp/obtenerEstudianteData', params);
+    const student = computed(() => store.state.stApp.app.student)
+    const obtenerEstudianteID = (studentId) => store.dispatch('stApp/obtenerEstudianteID', studentId)
+    const updatedStudent = (params) => store.dispatch('stApp/editarEstudiante', params);
 
-
-    const studentData = async (id) => {
-      try {
-          await oneStudent({id: id})    
-          console.log('Datos enviados:', id);             
+    const changeStudent = async (id) => {
+        try {
+          await updatedStudent({id: id, editedStudent: editedStudent.value})
+          //console.log(editedStudent.value)
+        //   alert(updateStudent.value.mensaje)      
+        //   router.push({ name: 'students' });   
       } catch (error) {
-        console.error("Error fetching students:", error);
+        console.error("Error updating students:", error);
       }
-    };
+    }
 
+    const getStudentID = async (studentId) => {
+      try {
+          await obtenerEstudianteID(studentId)
+      } catch (error) {
+        console.error("Error get student:", error)
+      }
+    }
 
+    const hasChanges = computed(() =>
+        JSON.stringify(originalStudent.value) !== JSON.stringify(editedStudent.value))
 
-    onMounted(() => {
-        studentData(id);
-    });
+    onMounted(async() => {
+        await getStudentID(router.currentRoute.value.params.id)
+        originalStudent.value = JSON.parse(JSON.stringify(student.value))
+        editedStudent.value = JSON.parse(JSON.stringify(student.value))
+    })
 
     return {
-      students,
-      studentData
-    };
+        changeStudent,
+        hasChanges,
+        editedStudent
+    }
   }
-};
+}
 </script>
 
