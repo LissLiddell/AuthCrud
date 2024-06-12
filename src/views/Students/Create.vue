@@ -54,7 +54,7 @@ export default {
 
     const saveStudent = async () => {
       try {
-          await createStudent(student)
+          await createStudent(student.value)
           alert(addStudent.value.mensaje)      
           router.push({ name: 'students' });   
       } catch (error) {

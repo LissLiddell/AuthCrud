@@ -8,11 +8,9 @@ class api {
   static delete_Student = (params) => 
     axios.delete(`${conexion.urlLocal}students/${params.id}/delete`, {params}, conexion.headers)
   static create_Student = async(params) => 
-    axios.post(conexion.urlLocal + `students`, {params}, conexion.headers)
-  static  update_student = (params) => {
-    console.log('editedStudent', params)
-    return axios.put(conexion.urlLocal + `students/${params.id}/edit`, {editedStudent: params.editedStudent}, conexion.headers)
-  }
+    axios.post(conexion.urlLocal + `students`, params, conexion.headers)
+  static  update_student = (params) => 
+    axios.put(`${conexion.urlLocal}students/${params.id}/edit`, params.editedStudent, { headers: conexion.headers })
 }
 
-export default api;
+export default api

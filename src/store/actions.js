@@ -57,12 +57,11 @@ export const editarEstudiante = async (context, params) => {
   try {
 
     let resp = await api.update_student(params)
-    console.log('resp', resp)
-    // if (resp.status === 200) {
-    //   context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Información Estudiante Modificado"});
-    // } else {
-    //   context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Fallo al modificar el estudiante"});
-    // }
+    if (resp.status === 200) {
+      context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Información Estudiante Modificado"});
+    } else {
+      context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Fallo al modificar el estudiante"});
+    }
     } catch (error) {
       console.error('Error in editStudent:', error);
       throw error;

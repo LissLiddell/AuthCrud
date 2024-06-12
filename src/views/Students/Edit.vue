@@ -28,7 +28,7 @@
                     <input type="number" v-model="editedStudent.phone"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
-                    <button type="button" :disabled="!hasChanges" @click="changeStudent(editedStudent.id)"
+                    <button type="button" :disabled="!hasChanges" @click="btnEditarEstudiante(editedStudent.id)"
                         class="btn btn-primary">Update</button>
                 </div>
             </div>
@@ -49,15 +49,15 @@ export default {
 
     // llamada de store
     const student = computed(() => store.state.stApp.app.student)
+    const updateStudent = computed(() => store.state.stApp.app.updateStudent)
     const obtenerEstudianteID = (studentId) => store.dispatch('stApp/obtenerEstudianteID', studentId)
-    const updatedStudent = (params) => store.dispatch('stApp/editarEstudiante', params);
+    const editarEstudiante = (params) => store.dispatch('stApp/editarEstudiante', params);
 
-    const changeStudent = async (id) => {
+    const btnEditarEstudiante = async (id) => {
         try {
-          await updatedStudent({id: id, editedStudent: editedStudent.value})
-          //console.log(editedStudent.value)
-        //   alert(updateStudent.value.mensaje)      
-        //   router.push({ name: 'students' });   
+          await editarEstudiante({id: id, editedStudent: editedStudent.value})
+          alert(updateStudent.value.mensaje)      
+          router.push({ name: 'students' });   
       } catch (error) {
         console.error("Error updating students:", error);
       }
@@ -81,7 +81,7 @@ export default {
     })
 
     return {
-        changeStudent,
+        btnEditarEstudiante,
         hasChanges,
         editedStudent
     }

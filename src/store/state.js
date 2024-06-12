@@ -11,12 +11,7 @@ export const state = () => ({
         email: '',
         phone: ''
     },
-    updateStudent: {
-        name: '',
-        course: '',
-        email: '',
-        phone: ''
-    }
+    updateStudent: null
 })
 
 export default state
