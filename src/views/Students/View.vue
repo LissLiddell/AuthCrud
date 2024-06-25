@@ -4,9 +4,9 @@
         <div class="card">
          <div class="card-header">
             <h4>
-                  Students
+                  Contacts
                   <RouterLink to="/students/create" class="btn btn-primary float-end">
-                  Add Student
+                  Add Contact
                   </RouterLink>
             </h4>
          </div>
@@ -16,10 +16,9 @@
                         <tr>
                               <th>ID</th>
                               <th>Name</th>
-                              <th>Course</th>
+                              <th>Age</th>
                               <th>Email</th>
                               <th>Phone</th>
-                              <th>Created At</th>
                               <th>Action</th>
                         </tr>
                   </thead>
@@ -27,15 +26,14 @@
                         <tr v-for="student in students" :key="student.id">
                               <td>{{ student.id }}</td>
                               <td>{{ student.name }}</td>
-                              <td>{{ student.course }}</td>
+                              <td>{{ student.age }}</td>
                               <td>{{ student.email }}</td>
                               <td>{{ student.phone }}</td>
-                              <td>{{ student.created_at }}</td>
                               <td>
                                <RouterLink :to="{ path: '/students/'+student.id+'/edit' }" class="btn btn-success mx-2">
                                      Edit
                               </RouterLink>  
-                              <button type="button" @click="studentDeleted(student.id)" class="btn btn-danger mx-2">Delete</button>
+                              <button type="button" @click="studentDeleted(student.id)" class="btn btn-danger">Delete</button>
                               </td>
                         </tr>
                   </tbody> 

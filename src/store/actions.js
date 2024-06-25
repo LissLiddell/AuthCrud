@@ -4,8 +4,8 @@ export const obtenerEstudiantes = async (context) => {
   try {
     //console.log("Ejecutando la acción obtenerEstudiantes"); 
     let resp = await api.get_Students();
-    // console.log("obtenerEstudiantes response:", resp.data.students);
-    context.commit('set_estudiantes', resp.data.students);
+    console.log("obtenerEstudiantes response:", resp.data);
+    context.commit('set_estudiantes', resp.data.contacts);
   } catch (error) {
     console.error('Error in obtenerEstudiantes:', error);
     throw error; // Propaga el error para que pueda ser manejado donde se llama a esta acción
@@ -14,9 +14,8 @@ export const obtenerEstudiantes = async (context) => {
 
 export const obtenerEstudianteID = async (context,id) => {
   try {
-    //console.log("Ejecutando la acción obtenerEstudiantes"); 
     let resp = await api.get_StudentID(id);
-    // console.log("obtenerEstudiantes response:", resp.data.students);
+    console.log("obtenerEstudiantes response:", resp.data.students);
     context.commit('set_student', resp.data.student);
   } catch (error) {
     console.error('Error in obtenerEstudiantes:', error);
@@ -72,6 +71,7 @@ export const cerrarSesion = async (context) => {
   try {
     context.commit('set_sessionActive', false);
     context.commit('set_token', null);
+    localStorage.removeItem('token');
   } catch (error) {
     console.log(error)
   }
@@ -83,8 +83,7 @@ export const validarUsuario = async (context, params) => {
     let resp = await api.get_login(params)
     if (resp.status === 200) {
       context.commit('set_token', resp.data.token);
-      context.commit('set_username', resp.data.username);
-      context.commit('set_sessionActive', true);
+      localStorage.setItem('token', resp.data.token);
     }
   } catch (error) {
     console.log(error)

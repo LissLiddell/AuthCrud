@@ -3,24 +3,22 @@ import {  RouterView } from 'vue-router'
 </script>
 
 <template>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="$store.state.stApp.app.sessionActive">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" v-if="$store.state.stApp.app.token">
         <div class="container">
-          <router-link class="navbar-brand" to="/students">Students</router-link>
+          <router-link class="navbar-brand" to="/students">CRUD</router-link>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <!-- <h4> Bienvenido, {{ usuario.nombre }}</h4> -->
-                <router-link class="nav-link" to="/students" style="color: azure;"> Usuario: {{ $store.state.stApp.app.username }} </router-link>
+                <router-link class="nav-link" to="/students" style="color: azure;"> Bienvenido {{ $store.state.stApp.app.username }} </router-link>
               </li>
               <li class="nav-item">
-                <!-- <h4> Bienvenido, {{ usuario.nombre }}</h4> -->
-                <button class="nav-link" @click=" () =>{
+                <button class="btn btn-light" @click=" () =>{
                     $store.dispatch('stApp/cerrarSesion')
                     $router.push({ name: 'login' });
-                  }" style="color: azure;"> Cerrar Sesion </button>
+                  }"> Log out </button>
               </li>
             </ul>
           </div>

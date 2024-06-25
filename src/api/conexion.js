@@ -1,4 +1,4 @@
-const urlLocal ='http://127.0.0.1:8000/api/'
+const urlLocal ='http://localhost:4000/api/'
 const headers = {
     'Access-Control-Allow-Origin':"*",
     'Access-Control-Allow-Methods': "DELETE, POST, GET, OPTIONS",
