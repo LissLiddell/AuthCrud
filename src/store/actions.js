@@ -2,9 +2,8 @@ import api from './../api/index'
 
 export const obtenerEstudiantes = async (context) => {
   try {
-    //console.log("Ejecutando la acción obtenerEstudiantes"); 
     let resp = await api.get_Students();
-    console.log("obtenerEstudiantes response:", resp.data);
+    //console.log("obtenerEstudiantes response:", resp.data);
     context.commit('set_estudiantes', resp.data.contacts);
   } catch (error) {
     console.error('Error in obtenerEstudiantes:', error);
@@ -27,10 +26,11 @@ export const obtenerEstudianteID = async (context,id) => {
 export const eliminarEstudiante = async (context, params) => {
   try {
     let resp = await api.delete_Student(params);
-    if (resp.status === 200) {
-      context.commit('remove_estudiantes', {resultado: resp.status === 200, mensaje: "Estudiante eliminado"});
+    console.log('respuesta', resp.data.status)
+    if (resp.data.status === 200) {
+      context.commit('remove_estudiantes', {resultado: resp.data.status === 200, mensaje: "Estudiante eliminado"});
     } else {
-      context.commit('remove_estudiantes', {resultado: resp.status === 200, mensaje: "Fallo al eliminar el estudiante"});
+      context.commit('remove_estudiantes', {resultado: resp.data.status === 200, mensaje: "Fallo al eliminar el estudiante"});
     }
   } catch (error) {
     console.error('Error in eliminarEstudiante:', error);

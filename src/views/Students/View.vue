@@ -67,7 +67,7 @@ export default {
     const studentDeleted = async (id) => {
       try {
         if(confirm('Are you sure, you wan delete this data?')){
-          await deleteStudent({id: id})
+          await deleteStudent({ id })
           alert(resuDelStudents.value.mensaje)
           getStudents()
         }
