@@ -4,11 +4,6 @@
             <div class="card-header">
                 <h4>Edit Students</h4>
             </div>
- <!-- <ul class="alert alert-warning" v-if="Object.keys(this.errorList).length > 0">
-                    <li class="mb-0 ms-3" v-for="(error,index) in this.errorList" :key="index">
-                        {{ error[0] }}
-                    </li>
-                </ul> -->
             <div class="card-body" v-if="editedStudent">
                            
                 <div class="mb-3">
@@ -16,8 +11,8 @@
                     <input type="text" v-model="editedStudent.name" class="form-control" required/>
                 </div>
                 <div class="mb-3">
-                    <label for="">Course</label>
-                    <input type="text"  v-model="editedStudent.course"  class="form-control" required/>
+                    <label for="">Age</label>
+                    <input type="text"  v-model="editedStudent.age"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
                     <label for="">Email</label>
@@ -45,7 +40,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const originalStudent = ref(null)
-    const editedStudent = ref({ name: '', course: '', email: '', phone: '' })
+    const editedStudent = ref({ name: '', age: '', email: '', phone: '' })
 
     // llamada de store
     const student = computed(() => store.state.stApp.app.student)

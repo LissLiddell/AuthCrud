@@ -20,7 +20,6 @@
                 <div class="row mb-3">
                   <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
                   <div class="col-md-6">
-                    <label for=""> {{ password.value }}</label>
                     <input id="password" v-model="password" type="password" class="form-control" autocomplete="password">
                     <span v-if="errors.password" role="alert">
                       <strong style="color:red">{{ errors.password }}</strong>
@@ -88,12 +87,12 @@ export default {
         if (token.value)
           router.push({ name: 'students' })
         else
-          alert('Usuario o contraseña incorrectos. Inténtelo de nuevo.')
+          errorMessage.value = 'Usuario o contraseña incorrectos. Inténtelo de nuevo.'
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
           errorMessage.value = error.response.data.message;
         } else {
-          errorMessage.value = 'Error al iniciar sesión. Inténtelo de nuevo más tarde.';
+          errorMessage.value = 'Error al iniciar sesión. Inténtelo de nuevo más tarde.'
         }
       }
     };

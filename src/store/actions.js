@@ -11,11 +11,12 @@ export const obtenerEstudiantes = async (context) => {
   }
 }
 
+
 export const obtenerEstudianteID = async (context,id) => {
   try {
     let resp = await api.get_StudentID(id);
-    console.log("obtenerEstudiantes response:", resp.data.students);
-    context.commit('set_student', resp.data.student);
+    //console.log("obtenerEstudiantes response:", resp.data.contacts);
+    context.commit('set_student', resp.data.contacts);
   } catch (error) {
     console.error('Error in obtenerEstudiantes:', error);
     throw error; // Propaga el error para que pueda ser manejado donde se llama a esta acción
@@ -27,10 +28,10 @@ export const eliminarEstudiante = async (context, params) => {
   try {
     let resp = await api.delete_Student(params);
     console.log('respuesta', resp.data.status)
-    if (resp.data.status === 200) {
-      context.commit('remove_estudiantes', {resultado: resp.data.status === 200, mensaje: "Estudiante eliminado"});
+    if (resp.data.status === 201) {
+      context.commit('remove_estudiantes', {resultado: resp.data.status === 201, mensaje: "Estudiante eliminado"});
     } else {
-      context.commit('remove_estudiantes', {resultado: resp.data.status === 200, mensaje: "Fallo al eliminar el estudiante"});
+      context.commit('remove_estudiantes', {resultado: resp.data.status === 500, mensaje: "Fallo al eliminar el estudiante"});
     }
   } catch (error) {
     console.error('Error in eliminarEstudiante:', error);
@@ -41,10 +42,11 @@ export const eliminarEstudiante = async (context, params) => {
 export const crearEstudiante = async (context,params) => {
   try {    
     let resp = await api.create_Student(params)
-    if (resp.status === 200) {
-      context.commit('add_student', {resultado: resp.status === 200, mensaje: "Estudiante Creado"});
+    console.log('respuesta', resp.data.status)
+    if (resp.data.status === 200) {
+      context.commit('add_student', {resultado: resp.data.status === 200, mensaje: "Contact created"});
     } else {
-      context.commit('add_student', {resultado: resp.status === 200, mensaje: "Fallo al agregar el estudiante"});
+      context.commit('add_student', {resultado: resp.data.status === 500, mensaje: "Fallo al agregar el estudiante"});
     }
   } catch (error) {
     console.error('Error in AddEstudent:', error);
@@ -56,10 +58,10 @@ export const editarEstudiante = async (context, params) => {
   try {
 
     let resp = await api.update_student(params)
-    if (resp.status === 200) {
-      context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Información Estudiante Modificado"});
+    if (resp.data.status === 200) {
+      context.commit('edit_student', {resultado: resp.data.status === 201, mensaje: "Información Estudiante Modificado"});
     } else {
-      context.commit('edit_student', {resultado: resp.status === 200, mensaje: "Fallo al modificar el estudiante"});
+      context.commit('edit_student', {resultado: resp.data.status === 500, mensaje: "Fallo al modificar el estudiante"});
     }
     } catch (error) {
       console.error('Error in editStudent:', error);

@@ -30,10 +30,10 @@
                               <td>{{ student.email }}</td>
                               <td>{{ student.phone }}</td>
                               <td>
-                               <RouterLink :to="{ path: '/students/'+student.id+'/edit' }" class="btn btn-success mx-2">
-                                     Edit
-                              </RouterLink>  
-                              <button type="button" @click="studentDeleted(student.id)" class="btn btn-danger">Delete</button>
+                                <RouterLink  :to="{ path: '/students/Edit/'+student.id}" class="btn btn-success mx-2">
+                                 Update
+                                </RouterLink>
+                                <button type="button" @click="studentDeleted(student.id)" class="btn btn-danger">Delete</button>
                               </td>
                         </tr>
                   </tbody> 
@@ -56,12 +56,12 @@ import { computed } from 'vue';
 
 export default {
   setup() {
-    const students = computed(() => store.state.stApp.app.students);
+    const students = computed(() => store.state.stApp.app.students)
     const store = useStore();
 
     // llamada de store
-    const resuDelStudents = computed(() => store.state.stApp.app.resuDelStudents);
-    const deleteStudent = (params) => store.dispatch('stApp/eliminarEstudiante', params);
+    const resuDelStudents = computed(() => store.state.stApp.app.resuDelStudents)
+    const deleteStudent = (params) => store.dispatch('stApp/eliminarEstudiante', params)
 
 
     const studentDeleted = async (id) => {

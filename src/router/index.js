@@ -25,7 +25,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/students/:id/edit',
+      path: '/students/Edit/:id',
       name: 'studentEdit',
       component: StudentEdit,
       meta: { requiresAuth: true }
@@ -34,7 +34,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); 
+  const isAuthenticated = localStorage.getItem('token'); 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   if (requiresAuth && !isAuthenticated) {
