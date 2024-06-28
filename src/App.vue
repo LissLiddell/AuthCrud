@@ -11,9 +11,6 @@ import {  RouterView } from 'vue-router'
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item" style="text-align: center">
-                <router-link class="nav-link center" to="/students" style="color: azure;"> Bienvenido {{ username }} </router-link>
-              </li>
               <li class="nav-item">
                 <button class="btn btn-light" @click=" () =>{
                     $store.dispatch('stApp/cerrarSesion')
