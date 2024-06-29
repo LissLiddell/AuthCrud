@@ -50,21 +50,27 @@
 
 
 <script>
-import { useStore } from 'vuex';
-import { onMounted} from 'vue';
-import { computed } from 'vue';
+import { useStore } from 'vuex'
+import { onMounted} from 'vue'
+import { computed } from 'vue'
 import { ref } from 'vue';
 
 export default {
   setup() {
-    const students = computed(() => store.state.stApp.app.students)
     const store = useStore()
-    const query = ref('');
-    const resultados = ref([]);
+    const students = computed(() => store.state.stApp.app.students)
 
     // llamada de store
+    const deleteStudent = (params) => store.dispatch('stApp/FdeleteContact', params)
     const resuDelStudents = computed(() => store.state.stApp.app.resuDelStudents)
-    const deleteStudent = (params) => store.dispatch('stApp/eliminarEstudiante', params)
+
+    const getStudents = async () => {
+      try {
+        await store.dispatch('stApp/FgetContact')
+      } catch (error) {
+        console.error("Error fetching students:", error)
+      }
+    }
 
     const studentDeleted = async (id) => {
       try {
@@ -74,27 +80,19 @@ export default {
           getStudents()
         }
       } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
-
-    const getStudents = async () => {
-      try {
-        await store.dispatch('stApp/obtenerEstudiantes');
-      } catch (error) {
-        console.error("Error fetching students:", error);
+        console.error("Error fetching students:", error)
       }
     };
 
     onMounted(() => {
-      getStudents();
-    });
+      getStudents()
+    })
 
     return {
-      students,
       getStudents,
-      studentDeleted
-    };
+      studentDeleted,
+      students      
+    }
   }
-};
+}
 </script>

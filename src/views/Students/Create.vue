@@ -37,14 +37,13 @@ import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-    const store = useStore();
-    const router = useRouter();
-
-    const student = ref({ id: 0, name: '', age: '', email: '',  phone: '' });
+     const student = ref({ id: 0, name: '', age: '', email: '',  phone: '' })
+     const store = useStore()
+     const router = useRouter()
 
     // llamada de store
     const addStudent = computed(() => store.state.stApp.app.addStudent);
-    const createStudent = (student) => store.dispatch('stApp/crearEstudiante', student);
+    const createStudent = (student) => store.dispatch('stApp/FcreateContact', student);
 
 
     const saveStudent = async () => {

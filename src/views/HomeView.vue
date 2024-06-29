@@ -65,7 +65,7 @@ export default {
     const token = computed(() => store.state.stApp.app.token);
     const username = computed(() => store.state.stApp.app.username);
 
-    const validarUsuario = (params) => store.dispatch('stApp/validarUsuario', params);
+    const FcheckUser = (params) => store.dispatch('stApp/FcheckUser', params);
 
     // función para validar login
     const login = async () => {
@@ -83,7 +83,7 @@ export default {
         errors.password = '';
       }
       try {
-        await validarUsuario({ user: user.value, password: password.value });
+        await FcheckUser({ user: user.value, password: password.value });
         if (token.value)
           router.push({ name: 'students' })
         else

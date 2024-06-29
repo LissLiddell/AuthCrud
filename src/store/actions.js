@@ -1,52 +1,52 @@
 import api from './../api/index'
 
-export const obtenerEstudiantes = async (context) => {
+export const FgetContact = async (context) => {
   try {
     let resp = await api.get_Students();
-    //console.log("obtenerEstudiantes response:", resp.data);
-    context.commit('set_estudiantes', resp.data.contacts);
+    //console.log("FgetContact response:", resp.data);
+    context.commit('set_allcontact', resp.data.contacts);
   } catch (error) {
-    console.error('Error in obtenerEstudiantes:', error);
+    console.error('Error in FgetContact:', error);
     throw error; // Propaga el error para que pueda ser manejado donde se llama a esta acción
   }
 }
 
 
-export const obtenerEstudianteID = async (context,id) => {
+export const FgetContactID = async (context,id) => {
   try {
     let resp = await api.get_StudentID(id);
-    //console.log("obtenerEstudiantes response:", resp.data.contacts);
-    context.commit('set_student', resp.data.contacts);
+    //console.log("FgetContact response:", resp.data.contacts);
+    context.commit('set_contact', resp.data.contacts);
   } catch (error) {
-    console.error('Error in obtenerEstudiantes:', error);
+    console.error('Error in FgetContact:', error);
     throw error; // Propaga el error para que pueda ser manejado donde se llama a esta acción
   }
 }
 
 
-export const eliminarEstudiante = async (context, params) => {
+export const FdeleteContact = async (context, params) => {
   try {
     let resp = await api.delete_Student(params);
     console.log('respuesta', resp.data.status)
     if (resp.data.status === 201) {
-      context.commit('remove_estudiantes', {resultado: resp.data.status === 201, mensaje: "Estudiante eliminado"});
+      context.commit('remove_contact', {resultado: resp.data.status === 201, mensaje: "Estudiante eliminado"});
     } else {
-      context.commit('remove_estudiantes', {resultado: resp.data.status === 500, mensaje: "Fallo al eliminar el estudiante"});
+      context.commit('remove_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al eliminar el estudiante"});
     }
   } catch (error) {
-    console.error('Error in eliminarEstudiante:', error);
+    console.error('Error in FdeleteContact:', error);
     throw error;
   }
 }
 
-export const crearEstudiante = async (context,params) => {
+export const FcreateContact = async (context,params) => {
   try {    
     let resp = await api.create_Student(params)
     console.log('respuesta', resp.data.status)
     if (resp.data.status === 200) {
-      context.commit('add_student', {resultado: resp.data.status === 200, mensaje: "Contact created"});
+      context.commit('add_contact', {resultado: resp.data.status === 200, mensaje: "Contact created"});
     } else {
-      context.commit('add_student', {resultado: resp.data.status === 500, mensaje: "Fallo al agregar el estudiante"});
+      context.commit('add_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al agregar el estudiante"});
     }
   } catch (error) {
     console.error('Error in AddEstudent:', error);
@@ -54,14 +54,14 @@ export const crearEstudiante = async (context,params) => {
   }
 }
 
-export const editarEstudiante = async (context, params) => {
+export const FupdateContact = async (context, params) => {
   try {
 
     let resp = await api.update_student(params)
     if (resp.data.status === 200) {
-      context.commit('edit_student', {resultado: resp.data.status === 201, mensaje: "Información Estudiante Modificado"});
+      context.commit('edit_contact', {resultado: resp.data.status === 201, mensaje: "Información Estudiante Modificado"});
     } else {
-      context.commit('edit_student', {resultado: resp.data.status === 500, mensaje: "Fallo al modificar el estudiante"});
+      context.commit('edit_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al modificar el estudiante"});
     }
     } catch (error) {
       console.error('Error in editStudent:', error);
@@ -69,7 +69,7 @@ export const editarEstudiante = async (context, params) => {
     }
 }
 
-export const cerrarSesion = async (context) => {
+export const Flogout = async (context) => {
   try {
     context.commit('set_sessionActive', false);
     context.commit('set_token', null);
@@ -79,7 +79,7 @@ export const cerrarSesion = async (context) => {
   }
 }
 
-export const validarUsuario = async (context, params) => {
+export const FcheckUser = async (context, params) => {
   try {
 
     let resp = await api.get_login(params)

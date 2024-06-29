@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h4>Edit Students</h4>
             </div>
-            <div class="card-body" v-if="editedStudent">
+            <div class="card-body" v-if="editedStudent"> 
                            
                 <div class="mb-3">
                     <label for="">Name</label>
@@ -23,7 +23,7 @@
                     <input type="number" v-model="editedStudent.phone"  class="form-control" required/>
                 </div>
                 <div class="mb-3">
-                    <button type="button" :disabled="!hasChanges" @click="btnEditarEstudiante(editedStudent.id)"
+                    <button type="button" :disabled="!hasChanges" @click="btnFupdateContact(editedStudent.id)"
                         class="btn btn-primary">Update</button>
                 </div>
             </div>
@@ -37,20 +37,21 @@ import { useRouter } from 'vue-router'
 
 export default {
   setup() {
-    const store = useStore()
-    const router = useRouter()
-    const originalStudent = ref(null)
     const editedStudent = ref({ name: '', age: '', email: '', phone: '' })
+    const originalStudent = ref(null)
+    const router = useRouter()
+    const store = useStore()
 
     // llamada de store
+    const FupdateContact = (params) => store.dispatch('stApp/FupdateContact', params);
+    const FgetContactID = (studentId) => store.dispatch('stApp/FgetContactID', studentId)
     const student = computed(() => store.state.stApp.app.student)
     const updateStudent = computed(() => store.state.stApp.app.updateStudent)
-    const obtenerEstudianteID = (studentId) => store.dispatch('stApp/obtenerEstudianteID', studentId)
-    const editarEstudiante = (params) => store.dispatch('stApp/editarEstudiante', params);
+    
 
-    const btnEditarEstudiante = async (id) => {
+    const btnFupdateContact = async (id) => {
         try {
-          await editarEstudiante({id: id, editedStudent: editedStudent.value})
+          await FupdateContact({id: id, editedStudent: editedStudent.value})
           alert(updateStudent.value.mensaje)      
           router.push({ name: 'students' });   
       } catch (error) {
@@ -60,7 +61,7 @@ export default {
 
     const getStudentID = async (studentId) => {
       try {
-          await obtenerEstudianteID(studentId)
+          await FgetContactID(studentId)
       } catch (error) {
         console.error("Error get student:", error)
       }
@@ -76,9 +77,9 @@ export default {
     })
 
     return {
-        btnEditarEstudiante,
-        hasChanges,
-        editedStudent
+        btnFupdateContact,
+        editedStudent,
+        hasChanges        
     }
   }
 }
