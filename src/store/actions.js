@@ -42,7 +42,6 @@ export const FdeleteContact = async (context, id) => {
 export const FcreateContact = async (context,params) => {
   try {    
     let resp = await api.create_Student(params)
-    console.log('respuesta', resp.data.status)
     if (resp.data.status === 201) {
       context.commit('add_contact', {resultado: resp.data.status === 201, mensaje: resp.data.message});
     } else {
