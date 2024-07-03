@@ -24,9 +24,9 @@ export const FgetContactID = async (context,id) => {
 }
 
 
-export const FdeleteContact = async (context, params) => {
+export const FdeleteContact = async (context, id) => {
   try {
-    let resp = await api.delete_Student(params);
+    let resp = await api.delete_Student(id);
     console.log('respuesta', resp.data)
     if (resp.data.status === 200) {
       context.commit('remove_contact', {resultado: resp.data.status === 200, mensaje: resp.data.message});
