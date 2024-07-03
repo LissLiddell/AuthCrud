@@ -27,11 +27,11 @@ export const FgetContactID = async (context,id) => {
 export const FdeleteContact = async (context, params) => {
   try {
     let resp = await api.delete_Student(params);
-    console.log('respuesta', resp.data.status)
-    if (resp.data.status === 201) {
-      context.commit('remove_contact', {resultado: resp.data.status === 201, mensaje: "Estudiante eliminado"});
+    console.log('respuesta', resp.data)
+    if (resp.data.status === 200) {
+      context.commit('remove_contact', {resultado: resp.data.status === 200, mensaje: resp.data.message});
     } else {
-      context.commit('remove_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al eliminar el estudiante"});
+      context.commit('remove_contact', {resultado: resp.data.status === 500, mensaje:  resp.data.message});
     }
   } catch (error) {
     console.error('Error in FdeleteContact:', error);
@@ -43,8 +43,8 @@ export const FcreateContact = async (context,params) => {
   try {    
     let resp = await api.create_Student(params)
     console.log('respuesta', resp.data.status)
-    if (resp.data.status === 200) {
-      context.commit('add_contact', {resultado: resp.data.status === 200, mensaje: "Contact created"});
+    if (resp.data.status === 201) {
+      context.commit('add_contact', {resultado: resp.data.status === 201, mensaje: resp.data.message});
     } else {
       context.commit('add_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al agregar el estudiante"});
     }
@@ -58,8 +58,8 @@ export const FupdateContact = async (context, params) => {
   try {
 
     let resp = await api.update_student(params)
-    if (resp.data.status === 200) {
-      context.commit('edit_contact', {resultado: resp.data.status === 201, mensaje: "Información Estudiante Modificado"});
+    if (resp.data.status === 201) {
+      context.commit('edit_contact', {resultado: resp.data.status === 201, mensaje: resp.data.message});
     } else {
       context.commit('edit_contact', {resultado: resp.data.status === 500, mensaje: "Fallo al modificar el estudiante"});
     }
