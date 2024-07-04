@@ -52,7 +52,7 @@ export default {
     const btnFupdateContact = async (id) => {
         try {
           await FupdateContact({id: id, editedStudent: editedStudent.value})
-          alert(updateStudent.value.mensaje)      
+          //alert(updateStudent.value.mensaje)      
           router.push({ name: 'students' });   
       } catch (error) {
         console.error("Error updating students:", error);
