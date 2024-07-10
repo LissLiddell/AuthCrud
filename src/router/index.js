@@ -16,13 +16,13 @@ const router = createRouter({
       path: '/students',
       name: 'students',
       component: StudentView,
-      //meta: { requiresAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/students/create',
       name: 'studentCreate',
       component: StudentCreate,
-      //meta: { requiresAuth: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/students/Edit/:id',

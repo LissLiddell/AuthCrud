@@ -9,20 +9,20 @@
             <div class="card-body">
               <form @submit.prevent="login">
                 <div class="row mb-3">
-                  <label for="user" class="col-md-4 col-form-label text-md-end">User</label>
+                  <label for="nickname" class="col-md-4 col-form-label text-md-end">nickname</label>
                   <div class="col-md-6">
-                    <input id="user" v-model="user" type="user" class="form-control" autofocus autocomplete="user">
-                    <span v-if="errors.user != ''" role="alert">
-                      <strong style="color:red">{{ errors.user }}</strong>
+                    <input id="nickname" v-model="nickname" type="nickname" class="form-control" autofocus autocomplete="nickname">
+                    <span v-if="errors.nickname != ''" role="alert">
+                      <strong style="color:red">{{ errors.nickname }}</strong>
                     </span>
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
+                  <label for="contra" class="col-md-4 col-form-label text-md-end">contra</label>
                   <div class="col-md-6">
-                    <input id="password" v-model="password" type="password" class="form-control" autocomplete="password">
-                    <span v-if="errors.password" role="alert">
-                      <strong style="color:red">{{ errors.password }}</strong>
+                    <input id="contra" v-model="contra" type="contra" class="form-control" autocomplete="contra">
+                    <span v-if="errors.contra" role="alert">
+                      <strong style="color:red">{{ errors.contra }}</strong>
                     </span>
                   </div>
                 </div>
@@ -56,9 +56,9 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    const user = ref('');
-    const password = ref('');
-    const errors = reactive({ user: '', password: '' });
+    const nickname = ref('');
+    const contra = ref('');
+    const errors = reactive({ nickname: '', contra: '' });
     const errorMessage = ref('');
 
     //llamadas al store
@@ -70,20 +70,20 @@ export default {
     // función para validar login
     const login = async () => {
       errorMessage.value = '';
-      if (!user.value) {
-        errors.user = 'Please enter your user.';
+      if (!nickname.value) {
+        errors.nickname = 'Please enter your nickname.';
         return;
       } else {
-        errors.user = '';
+        errors.nickname = '';
       }
-      if (!password.value) {
-        errors.password = 'Please enter your password.';
+      if (!contra.value) {
+        errors.contra = 'Please enter your contra.';
         return;
       } else {
-        errors.password = '';
+        errors.contra = '';
       }
       try {
-        await FcheckUser({ user: user.value, password: password.value });
+        await FcheckUser({ nickname: nickname.value, contra: contra.value });
         if (token.value)
           router.push({ name: 'students' })
         else
@@ -98,8 +98,8 @@ export default {
     };
 
     return {
-      user,
-      password,
+      nickname,
+      contra,
       errors,
       errorMessage,
       login,

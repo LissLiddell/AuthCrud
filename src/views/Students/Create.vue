@@ -12,10 +12,6 @@
                 <div class="mb-3">
                     <input type="hidden" name="idUsuario" v-model="student.IdUsuario" value="6">
                 </div>
-                <div>
-                <label for="fechaActual"> Fecha de Registro:</label>
-                    <p>{{ fechaRegistro }}</p>
-                </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>                
@@ -32,10 +28,10 @@ import { useRouter } from 'vue-router';
 
 export default {
   setup() {
-     const student = ref({  telefono: '', idUsuario: '', fechaRegistro: '' })
+     const student = ref({  telefono: '', idUsuario: '' })
      const store = useStore()
      const router = useRouter()
-     fechaRegistro = new Date();
+
 
     // llamada de store
     const addStudent = computed(() => store.state.stApp.app.addStudent);
@@ -54,8 +50,7 @@ export default {
 
     return {
       student,
-      saveStudent,
-      fechaRegistro
+      saveStudent
     };
   }
 };
